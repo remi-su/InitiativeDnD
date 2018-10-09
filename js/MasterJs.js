@@ -1,34 +1,4 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<meta charset="utf-8">
-	<title>Obtener Iniciativa</title>
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-
-	<!-- jQuery library -->
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-
-	<!-- Latest compiled JavaScript -->
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-</head>
-<body>
-	<div id="apartadoPersonajes">
-		Crear actividad de Sopa de Letras <br>
-		Ingrese el número de palabras: <input type="text" name="numeroPersonajes" id="numeroPersonajes">
-		<div id="almacenDePersonajes">
-			
-		</div>
-		<input type="button" id="cargarPersonajes" value="Cargar Personajes">
-	</div>
-	<input type="button" id="obtenerPersonajes" value="Obtener Tabla">
-	<div id="tableCharacters">
-		
-	</div>
-	<br>
-	<input type="button" id="cambioTurno" value="Siguiente Turno">
-</body>
-</html>
-<script type="text/javascript">
+$(document).ready(function(){
 	$("#numeroPersonajes").change(function(){
 		crearInputPalabras();
 	});
@@ -37,7 +7,7 @@
 	document.getElementById("obtenerPersonajes").onclick = function () { solicitarPersonajes(); };
 
 	function cargarPersonajeIndividual(nombrePersonaje, modificador){
-		$.ajax({ url: './iniciativaServer.php',
+		$.ajax({ url: './php/ControllerDungeonMaster.php',
 			data: {tipo: "crearPersonaje", nombrePersonaje: nombrePersonaje, modificador: modificador},
 			type: 'post',
 			success: function(output) {
@@ -56,7 +26,7 @@
 	}
 
 	function solicitarPersonajes(){
-		$.ajax({ url: './iniciativaServer.php',
+		$.ajax({ url: './php/ControllerDungeonMaster.php',
 			data: {tipo: "obtenerPersonajes"},
 			type: 'post',
 			success: function(output) {
@@ -75,5 +45,4 @@
 		}
 		$("#almacenDePersonajes").append(htmlGeneral);
 	}
-
-</script>
+});
