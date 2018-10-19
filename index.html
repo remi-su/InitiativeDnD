@@ -2,30 +2,69 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>Obtener Iniciativa</title>
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-
-	<!-- jQuery library -->
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-
-	<!-- Latest compiled JavaScript -->
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<title>Registro de Usuarios</title>
+	<script src="jquery.min.js" type="text/javascript" language="javascript"></script>
 </head>
 <body>
-	<div id="apartadoPersonajes">
-		Crear actividad de Sopa de Letras <br>
-		Ingrese el número de palabras: <input type="text" name="numeroPersonajes" id="numeroPersonajes">
-		<div id="almacenDePersonajes">
-			
+	<form>
+		<div>
+			Usuario : <input type="text" placeholder="Usuario" name="usuario" id="usuario"><br>
+			Contraseña : <input type="password" placeholder="contraseña" name="clave" id="clave"><br>
+			<input type="button" name="registrarse" id="registrarse" value="registrarse"><input type="button" name="IniciarSesion" id="iniciar" value="Iniciar Sesión">
 		</div>
-		<input type="button" id="cargarPersonajes" value="Cargar Personajes">
-	</div>
-	<input type="button" id="obtenerPersonajes" value="Obtener Tabla">
-	<div id="tableCharacters">
-		
-	</div>
-	<br>
-	<input type="button" id="cambioTurno" value="Siguiente Turno">
+	</form>
 </body>
 </html>
-<script type="text/javascript" src="./js/MasterJs.js"></script>
+
+<script type="text/javascript">
+	
+	$(document).ready(function(){
+		document.getElementById("registrarse").onclick = function () { solicitarRegistroMaestro(); };
+		document.getElementById("iniciar").onclick = function () { solicitarInicioMaestro(); };
+
+		function solicitarRegistroMaestro(){
+			var usuarioM = $("#usuario").val();
+			var claveM = $("#clave").val();
+			$.ajax({ url: './LoginControl.php',
+				data: {usuario: usuarioM, clave: claveM, tipo: 1},
+				type: 'post',
+				success: function(output) {
+					alert(output);
+				}
+			});
+		}
+
+		function solicitarInicioMaestro(){
+			var usuarioM = $("#usuario").val();
+			var claveM = $("#clave").val();
+			$.ajax({ url: './LoginControl.php',
+				data: {usuario: usuarioM, clave: claveM, tipo: 2},
+				type: 'post',
+				success: function(output) {
+					if (output === "0"){
+						location.href="./controlAlumnosMaestro";
+					} else {
+						alert(output);
+					}
+				}
+			});
+		}
+
+		function verificarInicioSesion(){
+			$.ajax({ url: './auth.php',
+				data: {tipo: "verificar"},
+				type: 'post',
+				success: function(output) {
+					if (output === "0"){
+						
+					} else {
+						location.href="./controlAlumnosMaestro";
+					}
+				}
+			});
+		} 
+		
+		verificarInicioSesion(); 
+		
+	});
+</script>
